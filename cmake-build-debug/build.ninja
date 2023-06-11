@@ -61,6 +61,12 @@ build CMakeFiles/Algorithms.dir/Utils/RandomGraph/RandomGraph.cpp.obj: CXX_COMPI
   OBJECT_DIR = CMakeFiles\Algorithms.dir
   OBJECT_FILE_DIR = CMakeFiles\Algorithms.dir\Utils\RandomGraph
 
+build CMakeFiles/Algorithms.dir/Utils/ReadFromFile/ReadFromFile.cpp.obj: CXX_COMPILER__Algorithms_Debug C$:/Users/GS65/CLionProjects/Algorithms/Utils/ReadFromFile/ReadFromFile.cpp || cmake_object_order_depends_target_Algorithms
+  DEP_FILE = CMakeFiles\Algorithms.dir\Utils\ReadFromFile\ReadFromFile.cpp.obj.d
+  FLAGS = -g -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\Algorithms.dir
+  OBJECT_FILE_DIR = CMakeFiles\Algorithms.dir\Utils\ReadFromFile
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target Algorithms
@@ -69,7 +75,7 @@ build CMakeFiles/Algorithms.dir/Utils/RandomGraph/RandomGraph.cpp.obj: CXX_COMPI
 #############################################
 # Link the executable Algorithms.exe
 
-build Algorithms.exe: CXX_EXECUTABLE_LINKER__Algorithms_Debug CMakeFiles/Algorithms.dir/main.cpp.obj CMakeFiles/Algorithms.dir/Utils/RandomGraph/RandomGraph.cpp.obj
+build Algorithms.exe: CXX_EXECUTABLE_LINKER__Algorithms_Debug CMakeFiles/Algorithms.dir/main.cpp.obj CMakeFiles/Algorithms.dir/Utils/RandomGraph/RandomGraph.cpp.obj CMakeFiles/Algorithms.dir/Utils/ReadFromFile/ReadFromFile.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\Algorithms.dir

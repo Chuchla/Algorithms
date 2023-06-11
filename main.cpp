@@ -4,9 +4,9 @@
 
 int main() {
     using namespace std;
-    unique_ptr<RandomGraph> randomGraph = make_unique<RandomGraph>();
-    vector<vector<int>> graph = randomGraph ->GenerateUndirectedGraph(10,10);
-    randomGraph ->printGraph(graph);
-
+    unique_ptr<RandomGraph> randomGraph = make_unique<RandomGraph>(10);
+    randomGraph ->GenerateGraphUndirected(100);
+    randomGraph ->printGraphList();
+    randomGraph ->printGraphMatrix();
     return 0;
 }
