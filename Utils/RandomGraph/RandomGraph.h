@@ -13,6 +13,8 @@
 
 class RandomGraph {
 public :
+    RandomGraph();
+
     int vertexNumber;
     std::vector<std::vector<int>> matrixGraph;
     std::vector<std::list<std::pair<int,int>>> listGraph;
@@ -40,6 +42,23 @@ public :
     void printGraphMatrix();
 
     void maxDensityUndirected();
+
+    int maxNumberOfEdgesUndirected();
+    int maxNumberOfEdgesDirected();
+
+    void maxDensityDirected();
+
+    void readGraphFromFileDirected(const std::string &filename);
+
+    void addEdgeDirected(int sourceVertex, int targetVertex, int weight);
+
+    void GenerateGraphDirected(int graphDensity);
+
+    std::vector<std::vector<int>> getMatrixGraph();
+
+    std::vector<std::list<std::pair<int, int>>> getListGraph();
+
+    void clearGraph();
 };
 
 
