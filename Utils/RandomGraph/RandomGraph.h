@@ -16,8 +16,10 @@ public :
     RandomGraph();
 
     int vertexNumber;
+    int edgesAdded;
     std::vector<std::vector<int>> matrixGraph;
     std::vector<std::list<std::pair<int,int>>> listGraph;
+    std::vector<std::vector<int>> incidentMatrixGraph;
 
     RandomGraph(int vertexNumber);
 
@@ -59,6 +61,8 @@ public :
     std::vector<std::list<std::pair<int, int>>> getListGraph();
 
     void clearGraph();
+
+    void printGraphIncidentMatrix();
 };
 
 

@@ -26,8 +26,10 @@ void printMinimumSpanningTree(const std::vector<std::pair<int, std::pair<int, in
 int main() {
     using namespace std;
 
-    shared_ptr<RandomGraph> randomGraph = make_shared<RandomGraph>(10);
+    shared_ptr<RandomGraph> randomGraph = make_shared<RandomGraph>(5);
+    shared_ptr<RandomGraph> randomGraph2 = randomGraph;
     shared_ptr<RandomGraph> randomGraph1 = make_shared<RandomGraph>(10);
+
 //    shared_ptr<BellmanFordAlgorithm> bellmanFordAlgorithm = make_shared<BellmanFordAlgorithm>();
 //    shared_ptr<DijkstraAlgorithm>  dijkstraAlgorithm = make_shared<DijkstraAlgorithm>();
 //    shared_ptr<KruskalAlgorithm> kruskalAlgorithm = make_shared<KruskalAlgorithm>();
@@ -55,14 +57,12 @@ int main() {
 //    testPerformer -> KruskalTest();
 //    testPerformer -> PrimTest();
 
-        randomGraph ->GenerateGraphUndirected(20);
-        randomGraph -> printGraphMatrix();
+        randomGraph ->GenerateGraphDirected(20);
+
+        randomGraph ->printGraphIncidentMatrix();
+    cout << endl;
+        randomGraph ->printGraphMatrix();
         cout << endl;
         randomGraph ->printGraphList();
-    cout << endl;
-        randomGraph ->readGraphFromFileDirected("C:\\Users\\GS65\\CLionProjects\\Algorithms\\test");
-    randomGraph -> printGraphMatrix();
-    cout << endl;
-    randomGraph ->printGraphList();
     return 0;
 }

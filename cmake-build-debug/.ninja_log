@@ -1,11 +1,19 @@
 # ninja log v5
-5	703	7082742975427186	CMakeFiles/Algorithms.dir/main.cpp.obj	bec62fa01adfcd28
-5	1320	7082750737884230	CMakeFiles/Algorithms.dir/Utils/RandomGraph/RandomGraph.cpp.obj	4d656335a9d38cd
+6	699	7084826432380658	CMakeFiles/Algorithms.dir/main.cpp.obj	bec62fa01adfcd28
 16	103	7081864038454502	CMakeFiles/Algorithms.dir/Utils/ReadFromFile/ReadFromFile.cpp.obj	a4808b99fd563aeb
-1321	1772	7082750742371962	Algorithms.exe	4a1e018440cac8e6
+6	1887	7084832403268642	CMakeFiles/Algorithms.dir/Utils/RandomGraph/RandomGraph.cpp.obj	4d656335a9d38cd
+1888	2405	7084832408416708	Algorithms.exe	4a1e018440cac8e6
+20	1046	7084729867621976	CMakeFiles/Algorithms.dir/Dijkstra/DijkstraAlgorithm.cpp.obj	81557b4b538199af
+29	1532	7084729872510027	CMakeFiles/Algorithms.dir/Kruskal/KruskalAlgorithm.cpp.obj	be25141a7c39ccba
 0	230	7084693590813179	build.ninja	f6be1b8e20a9cde8
-9	1883	7082742079833911	CMakeFiles/Algorithms.dir/Prim/PrimsAlgorithm.cpp.obj	5d448d9988359007
-24	1674	7082742077731736	CMakeFiles/Algorithms.dir/Dijkstra/DijkstraAlgorithm.cpp.obj	81557b4b538199af
-28	1981	7082742080819111	CMakeFiles/Algorithms.dir/Kruskal/KruskalAlgorithm.cpp.obj	be25141a7c39ccba
-16	1647	7082742077461734	CMakeFiles/Algorithms.dir/BellmanFord/BellmanFordAlgorithm.cpp.obj	28cde389a5af9775
-20	2470	7082742085703034	CMakeFiles/Algorithms.dir/Utils/Test/TestPerformer.cpp.obj	efba0ff42198c865
+10	1406	7084729871261410	CMakeFiles/Algorithms.dir/Prim/PrimsAlgorithm.cpp.obj	5d448d9988359007
+39	1051	7084729867677335	CMakeFiles/Algorithms.dir/BellmanFord/BellmanFordAlgorithm.cpp.obj	28cde389a5af9775
+24	2038	7084729877571346	CMakeFiles/Algorithms.dir/Utils/Test/TestPerformer.cpp.obj	efba0ff42198c865
+7	1848	7084832526325835	CMakeFiles/Algorithms.dir/Utils/RandomGraph/RandomGraph.cpp.obj	4d656335a9d38cd
+1849	2422	7084832531972798	Algorithms.exe	4a1e018440cac8e6
+6	1928	7084832650501422	CMakeFiles/Algorithms.dir/Utils/RandomGraph/RandomGraph.cpp.obj	4d656335a9d38cd
+1928	2452	7084832655702240	Algorithms.exe	4a1e018440cac8e6
+5	885	7084836416612404	CMakeFiles/Algorithms.dir/main.cpp.obj	bec62fa01adfcd28
+886	1422	7084836421927860	Algorithms.exe	4a1e018440cac8e6
+8	772	7084836699158029	CMakeFiles/Algorithms.dir/main.cpp.obj	bec62fa01adfcd28
+773	1309	7084836704484229	Algorithms.exe	4a1e018440cac8e6

@@ -70,12 +70,14 @@ void TestPerformer::BellmanFordTest() {
 
     std::vector<double> testResultsMatrix;
     std::vector<double> testResultsList;
+    std::vector<double> testResultIncidentMatrix;
     unique_ptr<BellmanFordAlgorithm> bellmanFordAlgorithm = make_unique<BellmanFordAlgorithm>();
     for (int size: RANGES) {
         for(int density: DENSITY){
             cout << "BellmanFord Test (" << size << ", " << density << "%)"  << endl;
             std::vector<long> measuredTimesMatrix;
             std::vector<long> measuredTimesList;
+            std::vector<long> measuredTimesIncidentMatrix;
             for (int i = 0; i < TEST_REPEATS; i++) {
                 unique_ptr<RandomGraph> randomGraph = make_unique<RandomGraph>(size);
                 randomGraph ->GenerateGraphDirected(density);
@@ -83,9 +85,9 @@ void TestPerformer::BellmanFordTest() {
                 bellmanFordAlgorithm ->computeAlgorithmMatrix(randomGraph -> getMatrixGraph(),0);
                 auto mid = high_resolution_clock::now();
                 bellmanFordAlgorithm ->computeAlgorithmList(randomGraph -> getListGraph(), 0);
-                auto end = high_resolution_clock::now();
+                auto secondMid = high_resolution_clock::now();
                 auto durationMatrix = duration_cast<nanoseconds>(mid - start);
-                auto durationList = duration_cast<nanoseconds>(end - mid);
+                auto durationList = duration_cast<nanoseconds>(secondMid - mid);
                 long timeMatrix = durationMatrix.count();
                 long timeList = durationList.count();
                 measuredTimesMatrix.push_back(timeMatrix);

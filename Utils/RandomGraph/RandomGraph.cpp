@@ -10,8 +10,10 @@
 #include <unordered_set>
 #include <fstream>
 RandomGraph::RandomGraph(int vertexNumber) : vertexNumber(vertexNumber) {
+    edgesAdded = 0;
     matrixGraph.resize(vertexNumber, std::vector<int>(vertexNumber, 0));
     listGraph.resize(vertexNumber);
+    incidentMatrixGraph.resize(0, std::vector(vertexNumber, 0));
 }
 
 
@@ -73,10 +75,10 @@ void RandomGraph::GenerateGraphUndirected(int graphDensity){
     }
     else {
         int maxEdges = maxNumberOfEdgesUndirected() * graphDensity / 100;
-        int numberOfEdgesAdded = 0;
+        //int numberOfEdgesAdded = 0;
         vector<unordered_set<int>> visitedVerticies;
         visitedVerticies.resize(vertexNumber);
-        while(numberOfEdgesAdded < maxEdges){
+        while(edgesAdded < maxEdges){
             int sourceVertex = getRandomVertex();
             int targetVertex = getRandomVertex();
             int weight = getRandomWeight();
@@ -84,7 +86,6 @@ void RandomGraph::GenerateGraphUndirected(int graphDensity){
                 addEdgeUndirected(targetVertex,sourceVertex,weight);
                 visitedVerticies[sourceVertex].insert(targetVertex);
                 visitedVerticies[targetVertex].insert(sourceVertex);
-                numberOfEdgesAdded++;
             }
         }
     }
@@ -97,17 +98,16 @@ void RandomGraph::GenerateGraphDirected(int graphDensity){
     }
     else {
         int maxEdges = maxNumberOfEdgesDirected() * graphDensity / 100;
-        int numberOfEdgesAdded = 0;
+
         vector<unordered_set<int>> visitedVerticies;
         visitedVerticies.resize(vertexNumber);
-        while(numberOfEdgesAdded < maxEdges){
+        while(edgesAdded < maxEdges){
             int sourceVertex = getRandomVertex();
             int targetVertex = getRandomVertex();
             int weight = getRandomWeight();
             if(sourceVertex != targetVertex && visitedVerticies[sourceVertex].count(targetVertex) == 0){
                 addEdgeDirected(sourceVertex, targetVertex, weight);
                 visitedVerticies[sourceVertex].insert(targetVertex);
-                numberOfEdgesAdded++;
             }
         }
     }
@@ -115,9 +115,14 @@ void RandomGraph::GenerateGraphDirected(int graphDensity){
 
 void RandomGraph::printGraphMatrix() {
     using namespace std;
+    cout << "       ";
+    for (int i = 0; i < vertexNumber; ++i) {
+        cout << setw(4) << "V" << i;
+    }
+    cout << endl;
     int vertexPrinted = 0;
     for (std::vector<int> element: matrixGraph) {
-        cout << "Vertex " << vertexPrinted << ":";
+        cout << "Vertex " << vertexPrinted << ": ";
         vertexPrinted++;
         for (int edge: element) {
             cout << setw(5) << edge;
@@ -139,22 +144,44 @@ void RandomGraph::printGraphList() {
     }
 }
 
+void RandomGraph::printGraphIncidentMatrix(){
+    using namespace std;
+    cout << "      ";
+    for (int i = 0; i < vertexNumber; ++i) {
+        cout << setw(4) << "V" << i;
+    }
+    cout << endl;
+    for (int i = 0; i < edgesAdded; ++i) {
+        cout << "Edge " << i << ": ";
+        for (const auto &edge: incidentMatrixGraph[i]) {
+            int weight = edge;
+            cout << setw(5) << weight;
+        }
+        cout << endl;
+    }
+
+}
 void RandomGraph::addEdgeUndirected(int sourceVertex, int targetVertex, int weight) {
     using namespace std;
-    int currentNumberOfEdges = 0;
+    /*int currentNumberOfEdges = 0;
     for(auto & vector : matrixGraph) {
         for(auto & element : vector) {
             if(element != 0) {
                 ++currentNumberOfEdges;
             }
         }
-    }
-    currentNumberOfEdges /= 2; // ponieważ krawędzie są nieskierowane i dodajemy je w obu kierunkach
-    if(currentNumberOfEdges < maxNumberOfEdgesUndirected()) {
+    }*/
+    //currentNumberOfEdges /= 2; // ponieważ krawędzie są nieskierowane i dodajemy je w obu kierunkach
+    if(edgesAdded/2 < maxNumberOfEdgesUndirected()) {
         matrixGraph[sourceVertex][targetVertex] = weight;
         matrixGraph[targetVertex][sourceVertex] = weight; // dodajemy krawędź w przeciwnym kierunku
         listGraph[sourceVertex].emplace_back(make_pair(targetVertex, weight));
         listGraph[targetVertex].emplace_back(make_pair(sourceVertex, weight)); // dodajemy krawędź w przeciwnym kierunku
+        incidentMatrixGraph.emplace_back(vector<int>(0));
+        for(int i = 0 ; i < vertexNumber; i++) incidentMatrixGraph[edgesAdded].emplace_back(0);
+        incidentMatrixGraph[edgesAdded][sourceVertex] = weight;
+        incidentMatrixGraph[edgesAdded][targetVertex] = weight;
+        edgesAdded++;
     } else {
         cout << "Cannot add more edges. The graph is fully connected." << endl;
     }
@@ -162,17 +189,22 @@ void RandomGraph::addEdgeUndirected(int sourceVertex, int targetVertex, int weig
 }
 void RandomGraph::addEdgeDirected(int sourceVertex, int targetVertex, int weight) {
     using namespace std;
-    int currentNumberOfEdges = 0;
+    /*int currentNumberOfEdges = 0;
     for(auto & vector : matrixGraph) {
         for(auto & element : vector) {
             if(element != 0) {
                 ++currentNumberOfEdges;
             }
         }
-    }
-    if(currentNumberOfEdges < maxNumberOfEdgesDirected()) {
+    }*/
+    if(edgesAdded < maxNumberOfEdgesDirected()) {
         matrixGraph[sourceVertex][targetVertex] = weight;
         listGraph[sourceVertex].emplace_back(make_pair(targetVertex, weight));
+        incidentMatrixGraph.emplace_back(vector<int>(0));
+        for(int i = 0 ; i < vertexNumber; i++) incidentMatrixGraph[edgesAdded].emplace_back(0);
+        incidentMatrixGraph[edgesAdded][sourceVertex] = weight;
+        incidentMatrixGraph[edgesAdded][targetVertex] = -weight;
+        edgesAdded++;
     } else {
         cout << "Cannot add more edges. The graph is fully connected." << endl;
     }
@@ -236,6 +268,7 @@ void RandomGraph::clearGraph() {
     listGraph.clear();
     matrixGraph.resize(vertexNumber, std::vector<int>(vertexNumber, 0));
     listGraph.resize(vertexNumber);
+    edgesAdded = 0;
 }
 
 
