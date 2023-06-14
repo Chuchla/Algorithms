@@ -61,6 +61,36 @@ build CMakeFiles/Algorithms.dir/Utils/RandomGraph/RandomGraph.cpp.obj: CXX_COMPI
   OBJECT_DIR = CMakeFiles\Algorithms.dir
   OBJECT_FILE_DIR = CMakeFiles\Algorithms.dir\Utils\RandomGraph
 
+build CMakeFiles/Algorithms.dir/Prim/PrimsAlgorithm.cpp.obj: CXX_COMPILER__Algorithms_Debug C$:/Users/GS65/CLionProjects/Algorithms/Prim/PrimsAlgorithm.cpp || cmake_object_order_depends_target_Algorithms
+  DEP_FILE = CMakeFiles\Algorithms.dir\Prim\PrimsAlgorithm.cpp.obj.d
+  FLAGS = -g -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\Algorithms.dir
+  OBJECT_FILE_DIR = CMakeFiles\Algorithms.dir\Prim
+
+build CMakeFiles/Algorithms.dir/Kruskal/KruskalAlgorithm.cpp.obj: CXX_COMPILER__Algorithms_Debug C$:/Users/GS65/CLionProjects/Algorithms/Kruskal/KruskalAlgorithm.cpp || cmake_object_order_depends_target_Algorithms
+  DEP_FILE = CMakeFiles\Algorithms.dir\Kruskal\KruskalAlgorithm.cpp.obj.d
+  FLAGS = -g -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\Algorithms.dir
+  OBJECT_FILE_DIR = CMakeFiles\Algorithms.dir\Kruskal
+
+build CMakeFiles/Algorithms.dir/Dijkstra/DijkstraAlgorithm.cpp.obj: CXX_COMPILER__Algorithms_Debug C$:/Users/GS65/CLionProjects/Algorithms/Dijkstra/DijkstraAlgorithm.cpp || cmake_object_order_depends_target_Algorithms
+  DEP_FILE = CMakeFiles\Algorithms.dir\Dijkstra\DijkstraAlgorithm.cpp.obj.d
+  FLAGS = -g -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\Algorithms.dir
+  OBJECT_FILE_DIR = CMakeFiles\Algorithms.dir\Dijkstra
+
+build CMakeFiles/Algorithms.dir/BellmanFord/BellmanFordAlgorithm.cpp.obj: CXX_COMPILER__Algorithms_Debug C$:/Users/GS65/CLionProjects/Algorithms/BellmanFord/BellmanFordAlgorithm.cpp || cmake_object_order_depends_target_Algorithms
+  DEP_FILE = CMakeFiles\Algorithms.dir\BellmanFord\BellmanFordAlgorithm.cpp.obj.d
+  FLAGS = -g -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\Algorithms.dir
+  OBJECT_FILE_DIR = CMakeFiles\Algorithms.dir\BellmanFord
+
+build CMakeFiles/Algorithms.dir/Utils/Test/TestPerformer.cpp.obj: CXX_COMPILER__Algorithms_Debug C$:/Users/GS65/CLionProjects/Algorithms/Utils/Test/TestPerformer.cpp || cmake_object_order_depends_target_Algorithms
+  DEP_FILE = CMakeFiles\Algorithms.dir\Utils\Test\TestPerformer.cpp.obj.d
+  FLAGS = -g -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\Algorithms.dir
+  OBJECT_FILE_DIR = CMakeFiles\Algorithms.dir\Utils\Test
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target Algorithms
@@ -69,7 +99,7 @@ build CMakeFiles/Algorithms.dir/Utils/RandomGraph/RandomGraph.cpp.obj: CXX_COMPI
 #############################################
 # Link the executable Algorithms.exe
 
-build Algorithms.exe: CXX_EXECUTABLE_LINKER__Algorithms_Debug CMakeFiles/Algorithms.dir/main.cpp.obj CMakeFiles/Algorithms.dir/Utils/RandomGraph/RandomGraph.cpp.obj
+build Algorithms.exe: CXX_EXECUTABLE_LINKER__Algorithms_Debug CMakeFiles/Algorithms.dir/main.cpp.obj CMakeFiles/Algorithms.dir/Utils/RandomGraph/RandomGraph.cpp.obj CMakeFiles/Algorithms.dir/Prim/PrimsAlgorithm.cpp.obj CMakeFiles/Algorithms.dir/Kruskal/KruskalAlgorithm.cpp.obj CMakeFiles/Algorithms.dir/Dijkstra/DijkstraAlgorithm.cpp.obj CMakeFiles/Algorithms.dir/BellmanFord/BellmanFordAlgorithm.cpp.obj CMakeFiles/Algorithms.dir/Utils/Test/TestPerformer.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\Algorithms.dir
