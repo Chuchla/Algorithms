@@ -75,5 +75,40 @@
         }
         return mst;
     }
+std::vector<std::pair<int, std::pair<int, int>>> KruskalAlgorithm::computeAlgorithmIncidentMatrix(const std::vector<std::vector<int>>& incidentMatrix) {
+    int vertices = incidentMatrix[0].size();
+    std::vector<std::pair<int, std::pair<int, int>>> edges, mst;
+
+    for(int i = 0; i < incidentMatrix.size(); ++i) {
+        int u = -1, v = -1;
+        int edgeWeight = 0;
+        for(int j = 0; j < incidentMatrix[i].size(); ++j) {
+            if(incidentMatrix[i][j] != 0){
+                edgeWeight = incidentMatrix[i][j];
+                if(u == -1){
+                    u = j;
+                } else {
+                    v = j;
+                    break;
+                }
+            }
+        }
+        if(u != -1 && v != -1){
+            edges.push_back({edgeWeight, {u, v}});
+        }
+    }
+
+    std::sort(edges.begin(), edges.end());
+    UnionFind uf(vertices);
+    for(auto & edge : edges) {
+        int u = edge.second.first, v = edge.second.second;
+        if(uf.find(u) != uf.find(v)) {
+            mst.push_back(edge);
+            uf.merge(u, v);
+        }
+    }
+
+    return mst;
+}
 
 

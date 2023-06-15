@@ -63,6 +63,8 @@ public :
     void clearGraph();
 
     void printGraphIncidentMatrix();
+
+    std::vector<std::vector<int>> getIncidentMatrixGraph();
 };
 
 

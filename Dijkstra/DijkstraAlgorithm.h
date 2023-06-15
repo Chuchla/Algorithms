@@ -10,10 +10,14 @@
 class DijkstraAlgorithm {
 public:
 
-    std::vector<int> computeAlgorithmMatrix(const std::vector<std::vector<int>> &graphMatrix, int sourceVertex);
+    std::pair<std::vector<int>, std::vector<int>>
+    computeAlgorithmMatrix(const std::vector<std::vector<int>> &graphMatrix, int sourceVertex);
 
-    std::vector<int>
+    std::pair<std::vector<int>, std::vector<int>>
     computeAlgorithmList(const std::vector<std::list<std::pair<int, int>>> &graphList, int sourceVertex);
+
+    std::pair<std::vector<int>, std::vector<int>>
+    computeAlgorithmIncidentMatrix(const std::vector<std::vector<int>> &incidentMatrix, int sourceVertex);
 };
 
 

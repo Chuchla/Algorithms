@@ -12,6 +12,9 @@ public:
     std::vector<std::pair<int, std::pair<int, int>>> computeAlgorithmMatrix(const std::vector<std::vector<int>> &graphMatrix);
 
     std::vector<std::pair<int, std::pair<int, int>>> computeAlgorithmList(const std::vector<std::list<std::pair<int, int>>> &graphList);
+
+    std::vector<std::pair<int, std::pair<int, int>>>
+    computeAlgorithmIncidentMatrix(const std::vector<std::vector<int>> &incidentMatrix);
 };
 
 

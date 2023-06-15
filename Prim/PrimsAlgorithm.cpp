@@ -73,6 +73,46 @@ std::vector<std::pair<int, std::pair<int, int>>> PrimAlgorithm::computeAlgorithm
 
     return mst;
 }
+std::vector<std::pair<int, std::pair<int, int>>> PrimAlgorithm::computeAlgorithmIncidentMatrix(const std::vector<std::vector<int>>& incidentMatrix) {
+    int vertices = incidentMatrix[0].size();
+    std::vector<int> key(vertices, INT_MAX);
+    std::vector<bool> inMST(vertices, false);
+    std::vector<int> parent(vertices, -1);
+    std::priority_queue<std::pair<int, int>, std::vector<std::pair<int, int>>, std::greater<>> pq;
+    key[0] = 0;
+    pq.push({0, 0});
+
+    while (!pq.empty()) {
+        int u = pq.top().second;
+        pq.pop();
+        inMST[u] = true;
+
+        for (int i = 0; i < incidentMatrix.size()-1; ++i) {
+            int edgeWeight = incidentMatrix[i][u];
+            if(edgeWeight != 0){
+                int v = -1; // find the other end of the edge
+                for(int j = 0; j < incidentMatrix[i].size(); ++j) {
+                    if(j != u && incidentMatrix[i][j] != 0){
+                        v = j;
+                        break;
+                    }
+                }
+                if(v == -1 || inMST[v]) continue; // no other end found or the other end is already in MST
+                if(edgeWeight < key[v]) {
+                    parent[v] = u;
+                    key[v] = edgeWeight;
+                    pq.push({key[v], v});
+                }
+            }
+        }
+    }
+
+    std::vector<std::pair<int, std::pair<int, int>>> mst;
+    for (int i = 1; i < vertices; ++i)
+        mst.push_back({key[i], {parent[i], i}});
+
+    return mst;
+}
 
 
 
