@@ -80,8 +80,12 @@ void RandomGraph::maxDensityDirected() {
 
 }
 
-void RandomGraph::GenerateGraphUndirected(int graphDensity){
+void RandomGraph::GenerateGraphUndirected(int vertexNumber,int graphDensity){
     using namespace std;
+    this->vertexNumber = vertexNumber;
+    matrixGraph.resize(vertexNumber, std::vector<int>(vertexNumber, 0));
+    listGraph.resize(vertexNumber);
+    incidentMatrixGraph.resize(1,std::vector<int>(vertexNumber,0));
     clearGraph();
     if (graphDensity == 100) {
         maxDensityUndirected();
@@ -103,15 +107,18 @@ void RandomGraph::GenerateGraphUndirected(int graphDensity){
         }
     }
 }
-void RandomGraph::GenerateGraphDirected(int graphDensity){
+void RandomGraph::GenerateGraphDirected(int vertexNumber,int graphDensity){
     using namespace std;
+    this->vertexNumber = vertexNumber;
+    matrixGraph.resize(vertexNumber, std::vector<int>(vertexNumber, 0));
+    listGraph.resize(vertexNumber);
+    incidentMatrixGraph.resize(1,std::vector<int>(vertexNumber,0));
     clearGraph();
     if (graphDensity == 100) {
         maxDensityDirected();
     }
     else {
         int maxEdges = maxNumberOfEdgesDirected() * graphDensity / 100;
-
         vector<unordered_set<int>> visitedVerticies;
         visitedVerticies.resize(vertexNumber);
         while(edgesAdded < maxEdges){
@@ -230,7 +237,9 @@ void RandomGraph::readGraphFromFileUndirected(const std::string &filename) {
     }
 
     int numEdges;
+    for(int i = 0; i<vertexNumber; i++) matrixGraph[i].clear();
     file >> numEdges >> vertexNumber;
+    this->vertexNumber = vertexNumber;
 
     matrixGraph.resize(vertexNumber, vector<int>(vertexNumber, 0));
     listGraph.resize(vertexNumber);
@@ -255,8 +264,9 @@ void RandomGraph::readGraphFromFileDirected(const std::string &filename) {
     }
 
     int numEdges;
-
+    for(int i = 0; i<vertexNumber; i++) matrixGraph[i].clear();
     file >> numEdges >> vertexNumber;
+    this->vertexNumber = vertexNumber;
     matrixGraph.resize(vertexNumber, vector<int>(vertexNumber, 0));
     listGraph.resize(vertexNumber);
     incidentMatrixGraph.resize(0);

@@ -101,6 +101,7 @@ build CMakeFiles/Algorithms.dir/Utils/Test/TestPerformer.cpp.obj: CXX_COMPILER__
 
 build Algorithms.exe: CXX_EXECUTABLE_LINKER__Algorithms_Debug CMakeFiles/Algorithms.dir/main.cpp.obj CMakeFiles/Algorithms.dir/Utils/RandomGraph/RandomGraph.cpp.obj CMakeFiles/Algorithms.dir/Prim/PrimsAlgorithm.cpp.obj CMakeFiles/Algorithms.dir/Kruskal/KruskalAlgorithm.cpp.obj CMakeFiles/Algorithms.dir/Dijkstra/DijkstraAlgorithm.cpp.obj CMakeFiles/Algorithms.dir/BellmanFord/BellmanFordAlgorithm.cpp.obj CMakeFiles/Algorithms.dir/Utils/Test/TestPerformer.cpp.obj
   FLAGS = -g
+  LINK_FLAGS = -static
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\Algorithms.dir
   POST_BUILD = cd .

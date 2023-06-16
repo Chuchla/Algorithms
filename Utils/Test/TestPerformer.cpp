@@ -18,13 +18,13 @@
 using namespace std;
 using namespace std::chrono;
 const vector<int> TestPerformer::RANGES(
-        {12,24,48,96,192}
+        {100}
 );
 const vector<int> TestPerformer::DENSITY(
-        {25,50,75,100}
+        {3100}
         );
 
-const int TestPerformer::TEST_REPEATS = 50;
+const int TestPerformer::TEST_REPEATS = 1;
 
 double TestPerformer::calculateAverage(std::vector<long> *elements) {
     double total = .0;
@@ -43,7 +43,7 @@ void TestPerformer::writeArrayToCsvFile(std::vector<double> *results, std::strin
     for (int i = 0; i < headers.size(); i++) {
         string &header = headers.at(i);
         for(auto density : DENSITY){
-            csv += header + " " + std::to_string(density) + ":";
+            csv += header + " " + std::to_string(density) + ",";
         }
     }
 
@@ -56,7 +56,7 @@ void TestPerformer::writeArrayToCsvFile(std::vector<double> *results, std::strin
     csv += "\n";
     for (int i = 0; i < results->size(); i++) {
         string result = std::to_string(results->at(i));
-        csv += i == results->size() - 1 ?  result : result + ":";
+        csv += i == results->size() - 1 ?  result : result + ",";
     }
     csv += "\n";
     file << csv;
@@ -80,23 +80,30 @@ void TestPerformer::BellmanFordTest() {
             std::vector<long> measuredTimesIncidentMatrix;
             for (int i = 0; i < TEST_REPEATS; i++) {
                 unique_ptr<RandomGraph> randomGraph = make_unique<RandomGraph>(size);
-                randomGraph ->GenerateGraphDirected(density);
+                randomGraph ->GenerateGraphDirected(size,density);
                 auto start = high_resolution_clock::now();
                 bellmanFordAlgorithm ->computeAlgorithmMatrix(randomGraph -> getMatrixGraph(),0);
                 auto mid = high_resolution_clock::now();
                 bellmanFordAlgorithm ->computeAlgorithmList(randomGraph -> getListGraph(), 0);
                 auto secondMid = high_resolution_clock::now();
-                auto durationMatrix = duration_cast<nanoseconds>(mid - start);
-                auto durationList = duration_cast<nanoseconds>(secondMid - mid);
+                bellmanFordAlgorithm ->computeAlgorithmIncidentMatrix(randomGraph -> getIncidentMatrixGraph(),0);
+                auto end = high_resolution_clock::now();
+                auto durationMatrix = duration_cast<microseconds>(mid - start);
+                auto durationList = duration_cast<microseconds>(secondMid - mid);
+                auto durationIncidentMatrix = duration_cast<microseconds>(end-secondMid);
                 long timeMatrix = durationMatrix.count();
                 long timeList = durationList.count();
+                long timeIncidentMatrix = durationIncidentMatrix.count();
                 measuredTimesMatrix.push_back(timeMatrix);
                 measuredTimesList.push_back(timeList);
+                measuredTimesIncidentMatrix.push_back(timeIncidentMatrix);
             }
             double resultMatrix = calculateAverage(&measuredTimesMatrix);
-            double resultList = calculateAverage(&measuredTimesMatrix);
+            double resultList = calculateAverage(&measuredTimesList);
+            double resultIncidentMatrix = calculateAverage(&measuredTimesIncidentMatrix);
             testResultsMatrix.push_back(resultMatrix);
             testResultsList.push_back(resultList);
+            testResultIncidentMatrix.push_back(resultIncidentMatrix);
         }
 
     }
@@ -109,6 +116,10 @@ void TestPerformer::BellmanFordTest() {
                         "BellmanFordList.csv",
                         headers
     );
+    writeArrayToCsvFile(&testResultIncidentMatrix,
+                          "BellmanFordIncidentMatrix.csv",
+                          headers
+    );
 
 }
 
@@ -119,45 +130,58 @@ void TestPerformer::DijkstraTest() {
     }
     std::vector<double> testResultsMatrix;
     std::vector<double> testResultsList;
+    std::vector<double> testResultIncidentMatrix;
     unique_ptr<DijkstraAlgorithm> dijkstraAlgorithm = make_unique<DijkstraAlgorithm>();
     for (int size: RANGES) {
-        for(int density: DENSITY){
-            cout << "Dijkstra Test (" << size << ", " << density << "%)"  << endl;
+        for (int density: DENSITY) {
+            cout << "Dijkstra Test (" << size << ", " << density << "%)" << endl;
             std::vector<long> measuredTimesMatrix;
             std::vector<long> measuredTimesList;
+            std::vector<long> measuredTimesIncidentMatrix;
             for (int i = 0; i < TEST_REPEATS; i++) {
                 unique_ptr<RandomGraph> randomGraph = make_unique<RandomGraph>(size);
 
-                randomGraph ->GenerateGraphDirected(density);
+                randomGraph->GenerateGraphDirected(size, density);
                 auto start = high_resolution_clock::now();
-                dijkstraAlgorithm ->computeAlgorithmMatrix(randomGraph -> getMatrixGraph(),0);
+                dijkstraAlgorithm->computeAlgorithmMatrix(randomGraph->getMatrixGraph(), 0);
                 auto mid = high_resolution_clock::now();
-                dijkstraAlgorithm ->computeAlgorithmList(randomGraph -> getListGraph(), 0);
+                dijkstraAlgorithm->computeAlgorithmList(randomGraph->getListGraph(), 0);
+                auto secondMid = high_resolution_clock::now();
+                dijkstraAlgorithm->computeAlgorithmIncidentMatrix(randomGraph->getIncidentMatrixGraph(), 0);
                 auto end = high_resolution_clock::now();
-                auto durationMatrix = duration_cast<nanoseconds>(mid - start);
-                auto durationList = duration_cast<nanoseconds>(end - mid);
+                auto durationMatrix = duration_cast<microseconds>(mid - start);
+                auto durationList = duration_cast<microseconds>(secondMid - mid);
+                auto durationIncidentMatrix = duration_cast<microseconds>(end - secondMid);
                 long timeMatrix = durationMatrix.count();
                 long timeList = durationList.count();
+                long timeIncidentMatrix = durationIncidentMatrix.count();
                 measuredTimesMatrix.push_back(timeMatrix);
                 measuredTimesList.push_back(timeList);
+                measuredTimesIncidentMatrix.push_back(timeIncidentMatrix);
             }
             double resultMatrix = calculateAverage(&measuredTimesMatrix);
-            double resultList = calculateAverage(&measuredTimesMatrix);
+            double resultList = calculateAverage(&measuredTimesList);
+            double resultIncidentMatrix = calculateAverage(&measuredTimesIncidentMatrix);
             testResultsMatrix.push_back(resultMatrix);
             testResultsList.push_back(resultList);
+            testResultIncidentMatrix.push_back(resultIncidentMatrix);
+
         }
 
+        writeArrayToCsvFile(&testResultsMatrix,
+                            "DijkstraMatrix.csv",
+                            headers
+        );
+        writeArrayToCsvFile(&testResultsList,
+                            "DijkstraList.csv",
+                            headers
+        );
+        writeArrayToCsvFile(&testResultIncidentMatrix,
+                            "DijkstraIncidentMatrix.csv",
+                            headers
+        );
+
     }
-
-    writeArrayToCsvFile(&testResultsMatrix,
-                        "DijkstraMatrix.csv",
-                        headers
-    );
-    writeArrayToCsvFile(&testResultsList,
-                        "DijkstraList.csv",
-                        headers
-    );
-
 }
 void TestPerformer::KruskalTest() {
     std::vector<std::string> headers;
@@ -166,44 +190,57 @@ void TestPerformer::KruskalTest() {
     }
     std::vector<double> testResultsMatrix;
     std::vector<double> testResultsList;
+    std::vector<double> testResultIncidentMatrix;
     unique_ptr<KruskalAlgorithm> kruskalAlgorithm = make_unique<KruskalAlgorithm>();
     for (int size: RANGES) {
-        for(int density: DENSITY){
-            cout << "Kruskal Test (" << size << ", " << density << "%)"  << endl;
+        for (int density: DENSITY) {
+            cout << "Kruskal Test (" << size << ", " << density << "%)" << endl;
             std::vector<long> measuredTimesMatrix;
             std::vector<long> measuredTimesList;
+            std::vector<long> measuredTimesIncidentMatrix;
             for (int i = 0; i < TEST_REPEATS; i++) {
                 unique_ptr<RandomGraph> randomGraph = make_unique<RandomGraph>(size);
-                randomGraph ->GenerateGraphUndirected(density);
+                randomGraph->GenerateGraphUndirected(size, density);
                 auto start = high_resolution_clock::now();
-                kruskalAlgorithm ->computeAlgorithmMatrix(randomGraph -> getMatrixGraph());
+                kruskalAlgorithm->computeAlgorithmMatrix(randomGraph->getMatrixGraph());
                 auto mid = high_resolution_clock::now();
-                kruskalAlgorithm ->computeAlgorithmList(randomGraph -> getListGraph());
+                kruskalAlgorithm->computeAlgorithmList(randomGraph->getListGraph());
+                auto secondMid = high_resolution_clock::now();
+                kruskalAlgorithm->computeAlgorithmIncidentMatrix(randomGraph->getIncidentMatrixGraph());
                 auto end = high_resolution_clock::now();
-                auto durationMatrix = duration_cast<nanoseconds>(mid - start);
-                auto durationList = duration_cast<nanoseconds>(end - mid);
+
+                auto durationMatrix = duration_cast<microseconds>(mid - start);
+                auto durationList = duration_cast<microseconds>(secondMid - mid);
+                auto durationIncidentMatrix = duration_cast<microseconds>(end - secondMid);
                 long timeMatrix = durationMatrix.count();
                 long timeList = durationList.count();
+                long timeIncidentMatrix = durationIncidentMatrix.count();
                 measuredTimesMatrix.push_back(timeMatrix);
                 measuredTimesList.push_back(timeList);
+                measuredTimesIncidentMatrix.push_back(timeIncidentMatrix);
             }
             double resultMatrix = calculateAverage(&measuredTimesMatrix);
-            double resultList = calculateAverage(&measuredTimesMatrix);
+            double resultList = calculateAverage(&measuredTimesList);
+            double resultIncidentMatrix = calculateAverage(&measuredTimesIncidentMatrix);
             testResultsMatrix.push_back(resultMatrix);
             testResultsList.push_back(resultList);
+            testResultIncidentMatrix.push_back(resultIncidentMatrix);
+
+            writeArrayToCsvFile(&testResultsMatrix,
+                                "KruskalMatrix.csv",
+                                headers
+            );
+            writeArrayToCsvFile(&testResultsList,
+                                "KruskalList.csv",
+                                headers
+            );
+            writeArrayToCsvFile(&testResultIncidentMatrix,
+                                  "KruskalIncidentMatrix.csv",
+                                  headers
+            );
+
         }
-
     }
-
-    writeArrayToCsvFile(&testResultsMatrix,
-                        "KruskalMatrix.csv",
-                        headers
-    );
-    writeArrayToCsvFile(&testResultsList,
-                        "KruskalList.csv",
-                        headers
-    );
-
 }
 void TestPerformer::PrimTest() {
     std::vector<std::string> headers;
@@ -212,33 +249,41 @@ void TestPerformer::PrimTest() {
     }
     std::vector<double> testResultsMatrix;
     std::vector<double> testResultsList;
+    std::vector<double> testResultIncidentMatrix;
     unique_ptr<PrimAlgorithm> primAlgorithm = make_unique<PrimAlgorithm>();
     for (int size: RANGES) {
-        for(int density: DENSITY){
-            cout << "Prim Test (" << size << ", " << density << "%)"  << endl;
+        for(int density: DENSITY) {
+            cout << "Prim Test (" << size << ", " << density << "%)" << endl;
             std::vector<long> measuredTimesMatrix;
             std::vector<long> measuredTimesList;
+            std::vector<long> measuredTimesIncidentMatrix;
             for (int i = 0; i < TEST_REPEATS; i++) {
                 unique_ptr<RandomGraph> randomGraph = make_unique<RandomGraph>(size);
-                randomGraph ->GenerateGraphUndirected(density);
+                randomGraph->GenerateGraphUndirected(size, density);
                 auto start = high_resolution_clock::now();
-                primAlgorithm ->computeAlgorithmMatrix(randomGraph -> getMatrixGraph());
+                primAlgorithm->computeAlgorithmMatrix(randomGraph->getMatrixGraph());
                 auto mid = high_resolution_clock::now();
-                primAlgorithm ->computeAlgorithmList(randomGraph -> getListGraph());
+                primAlgorithm->computeAlgorithmList(randomGraph->getListGraph());
+                auto secondMid = high_resolution_clock::now();
+                primAlgorithm ->computeAlgorithmIncidentMatrix(randomGraph -> getIncidentMatrixGraph());
                 auto end = high_resolution_clock::now();
-                auto durationMatrix = duration_cast<nanoseconds>(mid - start);
-                auto durationList = duration_cast<nanoseconds>(end - mid);
+                auto durationMatrix = duration_cast<microseconds>(mid - start);
+                auto durationList = duration_cast<microseconds>(secondMid - mid);
+                auto durationIncidentMatrix = duration_cast<microseconds>(end - secondMid);
                 long timeMatrix = durationMatrix.count();
                 long timeList = durationList.count();
+                long timeIncidentMatrix = durationIncidentMatrix.count();
                 measuredTimesMatrix.push_back(timeMatrix);
                 measuredTimesList.push_back(timeList);
+                measuredTimesIncidentMatrix.push_back(timeIncidentMatrix);
             }
             double resultMatrix = calculateAverage(&measuredTimesMatrix);
-            double resultList = calculateAverage(&measuredTimesMatrix);
+            double resultList = calculateAverage(&measuredTimesList);
+            double resultIncidentMatrix = calculateAverage(&measuredTimesIncidentMatrix);
             testResultsMatrix.push_back(resultMatrix);
             testResultsList.push_back(resultList);
+            testResultIncidentMatrix.push_back(resultIncidentMatrix);
         }
-
     }
 
     writeArrayToCsvFile(&testResultsMatrix,
@@ -247,6 +292,10 @@ void TestPerformer::PrimTest() {
     );
     writeArrayToCsvFile(&testResultsList,
                         "PrimList.csv",
+                        headers
+    );
+    writeArrayToCsvFile(&testResultIncidentMatrix,
+                        "PrimIncidentMatrix.csv",
                         headers
     );
 

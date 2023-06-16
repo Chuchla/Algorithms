@@ -65,6 +65,10 @@ public :
     void printGraphIncidentMatrix();
 
     std::vector<std::vector<int>> getIncidentMatrixGraph();
+
+    void GenerateGraphUndirected(int vertexNumber, int graphDensity);
+
+    void GenerateGraphDirected(int vertexNumber, int graphDensity);
 };
 
 
